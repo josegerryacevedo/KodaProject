@@ -1,0 +1,28 @@
+<div class="d-flex justify-content-end">
+  <%= link_to "Logout", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" }, class: 'btn btn-danger btn-sm mb-1' %>
+</div>
+<% @posts.each do |post| %>
+  <div class="card mb-2">
+    <div class="card-header text-white fw-bold" style="background-color: #000033">
+      Social Media Post
+      <%= link_to '', users_post_path(post), method: :delete, data: { confirm: "Are you sure, you want to delete?" }, class: 'btn btn-outline-danger btn-sm m-1 text-end fa-solid fa-trash-can', style: "float: right" %>
+      <%= link_to '', edit_users_post_path(post), data: { confirm: "Are you sure, you want to edit?" }, class: 'btn btn-outline-info btn-sm m-1 text-end fa-regular fa-pen-to-square', style: "float: right" %>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title fw-bolder text-danger fst-italic"><%= post.title %></h5>
+      <div class="row">
+        <div class="col-2">
+          <%= image_tag post.image.url, style: 'height:100px; width: 100%' if post.image.present? %>
+        </div>
+        <div class="col-10">
+          <p class="card-text lh-sm"><%= post.content %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+<% if @posts.blank? %>
+  <%= link_to 'Create Post', new_users_post_path, class: 'btn btn-sm text-light', style: 'background-color: #000033' %>
+<% else %>
+  <%= link_to 'Add Post', new_users_post_path, class: 'btn btn-sm text-light', style: 'background-color: #000033' %>
+<% end %>

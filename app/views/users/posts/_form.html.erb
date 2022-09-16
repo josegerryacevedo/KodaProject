@@ -1,0 +1,15 @@
+<div class="field mb-1">
+  <%= f.file_field :image, class: 'form-control', placeholder: 'Image' %>
+  <%= content_tag :p, @post.errors.full_messages_for(:image).join(', '), class: 'text-danger' if @post.errors.has_key?(:image) %>
+</div>
+<div class="field mb-1">
+  <%= f.text_field :title, class: 'form-control', placeholder: 'Title' %>
+  <%= content_tag :p, @post.errors.full_messages_for(:title).join(', '), class: 'text-danger' if @post.errors.has_key?(:title) %>
+</div>
+<div class="form-floating">
+  <%= f.text_area :content, class: 'form-control', id: "floatingTextarea2", style: "height: 100px" %>
+  <label for="floatingTextarea2">Content</label>
+  <%= content_tag :p, @post.errors.full_messages_for(:content).join(', '), class: 'text-danger' if @post.errors.has_key?(:content) %>
+</div>
+<%= f.submit "Post", class: 'btn btn-sm text-light mt-1', style: 'background-color: #000033' %>
+<%= link_to 'Back', users_posts_path, class: 'btn btn-sm text-light mt-1', style: 'background-color: #000033; float: right' %>
