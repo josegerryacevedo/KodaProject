@@ -1,28 +1,64 @@
-<div class="d-flex justify-content-end">
-  <%= link_to "Logout", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" }, class: 'btn btn-danger btn-sm mb-1' %>
+<%= render 'layouts/error_message' %>
+<h4>Me: <%= current_user.email %></h4>
+<div class=" d-flex justify-content-end">
+  <%= link_to 'Profile', users_friendships_path, class: 'btn btn-sm text-light m-1', style: 'background-color: #000033' %>
+  <%= link_to "Logout", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" }, class: 'btn btn-danger btn-sm m-1' %>
 </div>
-<% @posts.each do |post| %>
-  <div class="card mb-2">
-    <div class="card-header text-white fw-bold" style="background-color: #000033">
-      Social Media Post
-      <%= link_to '', users_post_path(post), method: :delete, data: { confirm: "Are you sure, you want to delete?" }, class: 'btn btn-outline-danger btn-sm m-1 text-end fa-solid fa-trash-can', style: "float: right" %>
-      <%= link_to '', edit_users_post_path(post), data: { confirm: "Are you sure, you want to edit?" }, class: 'btn btn-outline-info btn-sm m-1 text-end fa-regular fa-pen-to-square', style: "float: right" %>
-    </div>
-    <div class="card-body">
-      <h5 class="card-title fw-bolder text-danger fst-italic"><%= post.title %></h5>
-      <div class="row">
-        <div class="col-2">
-          <%= image_tag post.image.url, style: 'height:100px; width: 100%' if post.image.present? %>
+<div class="row">
+  <div class="col-2">
+    <div class="card text-center">
+      <div class="card-header text-white fw-bold" style="background-color: #000033">Users List</div>
+      <% @users.each do |user| %>
+        <div class="card-body">
+          <%= user.email %>
+          <%= link_to "", users_friendships_path(friend_id: user.id), data: { confirm: "Are you sure, you want to add #{user.email}?" }, class: 'btn btn-outline-info btn-sm text-end fa-solid fa-user-plus', method: :post %>
         </div>
-        <div class="col-10">
-          <p class="card-text lh-sm"><%= post.content %></p>
-        </div>
-      </div>
+      <% end %>
     </div>
   </div>
-<% end %>
-<% if @posts.blank? %>
-  <%= link_to 'Create Post', new_users_post_path, class: 'btn btn-sm text-light', style: 'background-color: #000033' %>
-<% else %>
-  <%= link_to 'Add Post', new_users_post_path, class: 'btn btn-sm text-light', style: 'background-color: #000033' %>
-<% end %>
+  <div class="col-8">
+    <h4 class="text-center">All Social Media Post</h4>
+    <% @posts.each do |post| %>
+      <div class="card mb-2">
+        <div class="card-header text-white fw-bold" style="background-color: #000033">
+          <div style="float: right">
+            <%= link_to '', users_post_path(post), method: :delete, data: { confirm: "Are you sure, you want to delete #{post.title}?" }, class: 'btn btn-outline-danger btn-sm text-end fa-solid fa-trash-can' %>
+            <%= link_to '', edit_users_post_path(post), data: { confirm: "Are you sure, you want to edit #{post.title}?" }, class: 'btn btn-outline-info btn-sm text-end fa-regular fa-pen-to-square' %>
+          </div>
+          <h6 class="m-1" style="float: left">By <%= post.user.email %></h6>
+          <h6 class="m-1" style="float: right"><%= post.audience %></h6>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title fw-bolder text-danger fst-italic"><%= post.title %></h5>
+          <div class="row">
+            <div class="col-2">
+              <%= image_tag post.image.url, style: 'height:100px; width: 100%' if post.image.present? %>
+            </div>
+            <div class="col-10">
+              <p class="card-text lh-sm"><%= post.content %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <% if @posts.blank? %>
+      <%= link_to 'Create Post', new_users_post_path, class: 'btn btn-sm text-light', style: 'background-color: #000033' %>
+    <% else %>
+      <%= link_to 'Add Post', new_users_post_path, class: 'btn btn-sm text-light', style: 'background-color: #000033' %>
+    <% end %>
+  </div>
+  <div class="col-2">
+    <div class="card text-center">
+      <div class="card-header text-white fw-bold" style="background-color: #000033">Friend List</div>
+      <% @friend_lists.each do |friend_list| %>
+        <div class="card-body">
+          <% if current_user == friend_list.user %>
+            <%= friend_list.friend.email %>
+          <% else %>
+            <%= friend_list.user.email %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -6,10 +6,14 @@
   <%= f.text_field :title, class: 'form-control', placeholder: 'Title' %>
   <%= content_tag :p, @post.errors.full_messages_for(:title).join(', '), class: 'text-danger' if @post.errors.has_key?(:title) %>
 </div>
-<div class="form-floating">
+<div class="form-floating mb-1">
   <%= f.text_area :content, class: 'form-control', id: "floatingTextarea2", style: "height: 100px" %>
   <label for="floatingTextarea2">Content</label>
   <%= content_tag :p, @post.errors.full_messages_for(:content).join(', '), class: 'text-danger' if @post.errors.has_key?(:content) %>
+</div>
+<div class="field">
+  <%= f.select(:audience, Post.audiences.keys.map { |key| [key.humanize, key] }, { :prompt => 'Choose Audience' }, class: 'form-control') %>
+  <%= content_tag :p, @post.errors.full_messages_for(:audience).join(', '), class: 'text-danger' if @post.errors.has_key?(:audience) %>
 </div>
 <%= f.submit "Post", class: 'btn btn-sm text-light mt-1', style: 'background-color: #000033' %>
 <%= link_to 'Back', users_posts_path, class: 'btn btn-sm text-light mt-1', style: 'background-color: #000033; float: right' %>

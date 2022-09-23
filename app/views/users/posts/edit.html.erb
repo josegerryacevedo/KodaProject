@@ -3,5 +3,5 @@
 </div>
 <h2>Edit Post</h2>
 <%= form_for @post, url: users_post_path(@post), method: :patch do |f| %>
-  <% render partial: "form", locals: {f: f, post: @post} %>
+  <% render partial: "form", locals: { f: f, post: @post } %>
 <% end %>
