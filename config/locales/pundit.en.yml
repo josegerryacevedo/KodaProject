@@ -1,7 +1,12 @@
 en:
   pundit:
-    default: You are not authorized to perform this action
+    default: You are not authorized to perform this action!
     post_policy:
-      edit?: You are not authorized to edit this post
-      update?: You are not authorized to edit this post
-      destroy?: You are not authorized to delete this post
+      edit?: You are not authorized to edit this post!!
+      update?: You are not authorized to edit this post!!
+      destroy?: You are not authorized to delete this post!!
+    friendship_policy:
+      confirm?: You are not authorized to confirm this friend!!
+      cancel?: You are not authorized to cancel this friend!!
+      decline?: You are not authorized to decline this friend!!
+      unfriend?: You are not authorized to unfriend this friend!!

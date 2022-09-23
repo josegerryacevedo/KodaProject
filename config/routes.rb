@@ -3,6 +3,12 @@ Rails.application.routes.draw do
   root to: 'users/posts#index'
 
   namespace :users do
-    resources :posts
+    resources :posts, path: 'home'
+    resources :friendships do
+      put :confirm
+      put :cancel
+      put :decline
+      put :unfriend
+    end
   end
 end

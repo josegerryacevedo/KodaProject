@@ -3,6 +3,13 @@ class Users::PostsController < ApplicationController
   before_action :set_post, only: [:edit, :update, :destroy]
 
   def index
+    @current_user_friend_lists = Friendship.includes(:user)
+                                           .where(user: current_user)
+                                           .or(Friendship.includes(:user).where(friend_id: current_user))
+    @friend_lists = @current_user_friend_lists.confirmed
+    @user_ids = @current_user_friend_lists.pluck(:user_id)
+    @friend_ids = @current_user_friend_lists.pluck(:friend_id)
+    @users = User.where.not(id: current_user.id).where.not(id: @user_ids + @friend_ids)
     @posts = Post.includes(:user)
   end
 
@@ -20,7 +27,9 @@ class Users::PostsController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    authorize @post, :edit?, policy_class: PostPolicy
+  end
 
   def update
     if @post.update(post_params)
@@ -31,6 +40,7 @@ class Users::PostsController < ApplicationController
   end
 
   def destroy
+    authorize @post, :destroy?, policy_class: PostPolicy
     if @post.destroy
       flash[:notice] = "Successfully Deleted!"
     else
@@ -42,7 +52,7 @@ class Users::PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:content, :title, :image)
+    params.require(:post).permit(:content, :title, :image, :audience)
   end
 
   def set_post

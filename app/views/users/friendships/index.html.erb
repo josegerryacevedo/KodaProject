@@ -1,0 +1,49 @@
+<h4>Me: <%= current_user.email %></h4>
+<div class=" d-flex justify-content-end">
+  <%= link_to "Logout", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" }, class: 'btn btn-danger btn-sm mb-1' %>
+</div>
+<div class="row">
+  <div class="col-4">
+    <div class="card text-center">
+      <div class="card-header text-white fw-bold" style="background-color: #000033">Outgoing Friend Request</div>
+      <% @friendships.each do |friend_request| %>
+        <% unless friend_request.cancelled? || friend_request.confirmed? %>
+          <div class="card-body">
+            <%= friend_request.friend.email %>
+            <%= link_to "Cancel", users_friendship_cancel_path(friend_request), class: 'btn btn-outline-danger btn-sm', data: { confirm: "Are you sure, you want to remove?" }, method: :put if friend_request.may_cancel? %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="card text-center">
+      <div class="card-header text-white fw-bold" style="background-color: #000033">Friend Request</div>
+      <% @inverse_friends.each do |inverse_friend| %>
+        <% unless inverse_friend.cancelled? || inverse_friend.confirmed? %>
+          <div class="card-body">
+            <%= inverse_friend.user.email %>
+            <%= inverse_friend.state %>
+            <%= link_to "Confirm", users_friendship_confirm_path(inverse_friend), class: 'btn btn-outline-info btn-sm', data: { confirm: "Are you sure, you want to confirm?" }, method: :put if inverse_friend.may_confirm? %>
+            <%= link_to "Decline", users_friendship_decline_path(inverse_friend), class: 'btn btn-outline-danger btn-sm', data: { confirm: "Are you sure, you want to remove?" }, method: :put if inverse_friend.may_decline? %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="card text-center">
+      <div class="card-header text-white fw-bold" style="background-color: #000033">Friend List</div>
+      <% @friend_lists.each do |friend_list| %>
+        <div class="card-body">
+          <% if current_user == friend_list.user %>
+            <%= friend_list.friend.email %>
+          <% else %>
+            <%= friend_list.user.email %>
+          <% end %>
+          <%= link_to "Unfriend", users_friendship_unfriend_path(friend_list), class: 'btn btn-outline-danger btn-sm', data: { confirm: "Are you sure, you want to unfriend?" }, method: :put if friend_list.may_unfriend? %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
