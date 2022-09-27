@@ -7,10 +7,13 @@ class Users::PostsController < ApplicationController
                                            .where(user: current_user)
                                            .or(Friendship.includes(:user).where(friend_id: current_user))
     @friend_lists = @current_user_friend_lists.confirmed
-    @user_ids = @current_user_friend_lists.pluck(:user_id)
-    @friend_ids = @current_user_friend_lists.pluck(:friend_id)
-    @users = User.where.not(id: current_user.id).where.not(id: @user_ids + @friend_ids)
-    @posts = Post.includes(:user)
+    @friend_ids = (@current_user_friend_lists.pluck(:friend_id) + @current_user_friend_lists.pluck(:user_id)).uniq
+    @users = User.where.not(id: current_user.id).where.not(id: @friend_ids)
+    @confirmed_friends_ids = (@friend_lists.pluck(:friend_id) + @friend_lists.pluck(:user_id)).uniq
+    @general_posts = Post.general
+    @friend_posts = Post.where(audience: :friend).where(user: @confirmed_friends_ids)
+    @user_posts = current_user.posts
+    @post_to_display = Post.where(id: @general_posts.pluck(:id) + @user_posts.pluck(:id) + @friend_posts.pluck(:id))
   end
 
   def new
