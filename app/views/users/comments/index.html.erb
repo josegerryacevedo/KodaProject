@@ -1,0 +1,25 @@
+<h3> All Comments</h3>
+<%= render 'layouts/error_message' %>
+<% @comments.each do |comment| %>
+  <div class="card mt-3">
+    <div class="card-header text-white fw-bold" style="background-color: #000033">
+      <div style="float: right">
+        <%= link_to '', users_post_comment_path(@post, comment), method: :delete, data: { confirm: "Are you sure, you want to delete?" }, class: 'btn btn-outline-danger btn-sm text-end fa-solid fa-trash-can' %>
+        <%= link_to '', edit_users_post_comment_path(@post, comment), data: { confirm: "Are you sure, you want to edit?" }, class: 'btn btn-outline-info btn-sm text-end fa-regular fa-pen-to-square' %>
+      </div>
+      <h6 class="m-1" style="float: left">Comment by <%= comment.user.email %></h6>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <p class="card-text lh-sm"><%= comment.content %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+<% if @comments.blank? %>
+  <%= link_to 'Create comment', new_users_post_comment_path(@post), class: 'btn btn-sm btn-outline-info mt-1' %>
+<% else %>
+  <%= link_to 'Add comment', new_users_post_comment_path(@post), class: 'btn btn-sm btn-outline-info mt-1' %>
+<% end %>

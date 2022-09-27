@@ -1,0 +1,7 @@
+<div class="form-floating mt-1">
+  <%= f.text_area :content, class: 'form-control', id: "floatingTextarea2", style: "height: 100px" %>
+  <label for="floatingTextarea2">Write a comment....</label>
+  <%= content_tag :p, @comment.errors.full_messages_for(:content).join(', '), class: 'text-danger' if @comment.errors.has_key?(:content) %>
+</div>
+<%= f.submit "Submit", class: 'btn btn-sm text-light mt-1', style: 'background-color: #000033' %>
+<%= link_to 'Back', users_post_comments_path, class: 'btn btn-sm text-light mt-1', style: 'background-color: #000033; float: right' %>

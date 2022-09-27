@@ -1,0 +1,4 @@
+<h1>Edit Comment</h1>
+<%= form_for @comment, url: users_post_comment_path(@post, @comment), method: :patch do |f| %>
+  <% render partial: "form", locals: { f: f, post: @comment } %>
+<% end %>

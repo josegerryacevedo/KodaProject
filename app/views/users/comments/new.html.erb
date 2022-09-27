@@ -1,0 +1,4 @@
+<h1>Create Comment</h1>
+<%= form_for @comment, url: users_post_comments_path(@post), method: :post do |f| %>
+  <% render partial: "form", locals: { f: f, post: @comment } %>
+<% end %>
