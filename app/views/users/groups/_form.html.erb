@@ -1,0 +1,15 @@
+<div class="field mb-1">
+  <%= f.file_field :banner, class: 'form-control', placeholder: 'Image' %>
+  <%= content_tag :p, @group.errors.full_messages_for(:banner).join(', '), class: 'text-danger' if @group.errors.has_key?(:banner) %>
+</div>
+<div class="form-floating mb-1">
+  <%= f.text_area :description, class: 'form-control', id: "floatingTextarea2", style: "height: 100px" %>
+  <label for="floatingTextarea2">Description</label>
+  <%= content_tag :p, @group.errors.full_messages_for(:description).join(', '), class: 'text-danger' if @group.errors.has_key?(:description) %>
+</div>
+<div class="field">
+  <%= f.select(:genre, Group.genres.keys.map { |key| [key.humanize, key] }, { :prompt => 'Type' }, class: 'form-control') %>
+  <%= content_tag :p, @group.errors.full_messages_for(:genre).join(', '), class: 'text-danger' if @group.errors.has_key?(:genre) %>
+</div>
+<%= f.submit "Submit", class: 'btn btn-sm text-light mt-1', style: 'background-color: #000033' %>
+<%= link_to 'Back', users_groups_path, class: 'btn btn-sm text-light mt-1', style: 'background-color: #000033; float: right' %>

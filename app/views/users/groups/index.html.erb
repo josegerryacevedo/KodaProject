@@ -1,0 +1,62 @@
+<%= render 'layouts/error_message' %>
+<h4>Me: <%= current_user.email %></h4>
+<div class="text-end p-2 mt-2 mb-2">
+  <%= link_to "All Group", users_groups_path(history: 'group_list'), class: 'd-inline btn btn-sm text-light', style: 'background-color: #000033' %>
+  <%= link_to "My Group", users_groups_path(history: 'my_own_group'), class: 'd-inline btn btn-sm text-light', style: 'background-color: #000033' %>
+  <%= link_to "Joined Group", users_groups_path(history: 'joined_group'), class: 'd-inline btn btn-sm text-light', style: 'background-color: #000033' %>
+</div>
+<%= link_to 'Check Request Groups', users_join_groups_path, class: 'btn btn-sm btn-outline-info fa-solid fa-people-group m-1' %>
+<div class="row">
+  <div class="col">
+    <h4 class="text-center mt-3">GROUPS</h4>
+    <% @groups&.each do |group| %>
+      <div class="card mt-1">
+        <div class="card-header text-white fw-bold text-start" style="background-color: #000033">
+          Created by <%= group.user.email %>
+          <div style="float: right">
+            <%= link_to 'Join', users_join_groups_path(group_id: group), method: :post, data: { confirm: "Are you sure, you want to join?" }, class: 'btn btn-outline-info btn-sm fa-thin fa-plus' %>
+            <%= link_to '', users_group_path(group), class: 'btn btn-outline-secondary btn-sm fa-solid fa-eye' %>
+            <%= link_to '', edit_users_group_path(group), data: { confirm: "Are you sure, you want to edit?" }, class: 'btn btn-outline-info btn-sm fa-regular fa-pen-to-square' %>
+            <%= link_to '', users_group_path(group), method: :delete, data: { confirm: "Are you sure, you want to delete?" }, class: 'btn btn-outline-danger btn-sm fa-solid fa-trash-can' %>
+          </div>
+          <h6 class="m-1" style="float: right"><%= group.genre %></h6>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-4">
+              <%= image_tag group.banner.url, style: 'height:100px; width: 100%' if group.banner.present? %>
+            </div>
+            <div class="col-8">
+              <p class="card-text lh-sm text-start"><%= group.description %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <% @joined_groups&.each do |joined_group| %>
+      <div class="card mt-1">
+        <div class="card-header text-white fw-bold text-start" style="background-color: #000033">
+          Created by <%= joined_group.group.user.email %>
+          <h6 class="m-1" style="float: right"><%= joined_group.group.genre %></h6>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-4">
+              <%= image_tag joined_group.group.banner.url, style: 'height:100px; width: 100%' if joined_group.group.banner.present? %>
+            </div>
+            <div class="col-8">
+              <p class="card-text lh-sm text-start"><%= joined_group.group.description %></p>
+              <%= link_to "Leave Group", users_join_group_leave_path(joined_group), class: 'btn btn-outline-danger btn-sm', data: { confirm: "Are you sure, you want to leave?" }, method: :put if joined_group.may_leave? %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+<%= link_to 'Home', users_posts_path, class: 'btn btn-sm text-light mt-1', style: 'background-color: #000033; float: right' %>
+<% if @groups.blank? %>
+  <%= link_to 'Create Group', new_users_group_path, class: 'btn btn-sm text-light mt-1', style: 'background-color: #000033' %>
+<% else %>
+  <%= link_to 'Add Group', new_users_group_path, class: 'btn btn-sm text-light mt-1', style: 'background-color: #000033' %>
+<% end %>
