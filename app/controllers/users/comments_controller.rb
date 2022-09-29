@@ -1,4 +1,5 @@
 class Users::CommentsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_post
   before_action :set_comment, only: [:edit, :update, :destroy]
   include ApplicationHelper

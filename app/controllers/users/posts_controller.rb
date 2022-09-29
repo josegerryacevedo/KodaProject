@@ -35,6 +35,7 @@ class Users::PostsController < ApplicationController
   end
 
   def update
+    authorize @post, :update?, policy_class: PostPolicy
     if @post.update(post_params)
       redirect_to users_posts_path, notice: 'Successfully Updated!'
     else

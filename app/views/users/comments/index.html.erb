@@ -18,6 +18,7 @@
     </div>
   </div>
 <% end %>
+<%= link_to 'Home', users_posts_path, class: 'btn btn-sm text-light mt-1', style: 'background-color: #000033; float: right' %>
 <% if @comments.blank? %>
   <%= link_to 'Create comment', new_users_post_comment_path(@post), class: 'btn btn-sm btn-outline-info mt-1' %>
 <% else %>

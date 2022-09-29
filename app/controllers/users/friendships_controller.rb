@@ -1,4 +1,5 @@
 class Users::FriendshipsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_friendship, except: [:index, :create]
 
   def index

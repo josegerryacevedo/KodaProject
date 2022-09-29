@@ -14,3 +14,15 @@ en:
       edit?: You are not authorized to edit this comment!!
       update?: You are not authorized to update this comment!!
       destroy?: You are not authorized to delete this comment!!
+    group_policy:
+      edit?: You are not authorized to edit this group!!
+      update?: You are not authorized to update this group!!
+      destroy?: You are not authorized to delete this group!!
+    join_group_policy:
+      create?: You are not authorized to join this group!!
+      approve?: You are not authorized to approve this user!!
+      decline?: You are not authorized to decline this user!!
+      update?: You are not authorized to assign role!!
+      remove?: You are not authorized to remove remember!!
+      cancel?: You are not authorized to cancel request!!
+      leave?: You are not authorized to leave!!
