@@ -1,0 +1,28 @@
+<h4>Me: <%= current_user.email %></h4>
+<%= render 'layouts/error_message' %>
+<div class="row">
+  <div class="col-4">
+    <div class="card text-center">
+      <div class="card-header text-white fw-bold" style="background-color: #000033">Sent request</div>
+      <% @sent_requests.each do |outgoing_group_request| %>
+        <%= image_tag outgoing_group_request.group.banner.url, style: 'height:100px; width: 100%' if outgoing_group_request.group.banner.present? %>
+        <h6>Created by <%= outgoing_group_request.group.user.email %></h6>
+        <h6>Description: <%= outgoing_group_request.group.description %></h6>
+        <%= link_to "Cancel Request", users_join_group_cancel_path(outgoing_group_request), class: 'btn btn-outline-danger btn-sm', data: { confirm: "Are you sure, you want to cancel?" }, method: :put if outgoing_group_request.may_cancel? %>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="card text-center">
+      <div class="card-header text-white fw-bold" style="background-color: #000033">Pending Approval</div>
+      <% @received_requests.each do |received_request| %>
+        <% if current_user == received_request.group.user %>
+          <%= image_tag received_request.group.banner.url, style: 'height:100px; width: 100%' if received_request.group.banner.present? %>
+          <h6>Sent by <%= received_request.user.email %></h6>
+          <%= link_to "Approve", users_join_group_approve_path(received_request), class: 'btn btn-outline-primary btn-sm', data: { confirm: "Are you sure, you want to approve?" }, method: :put if received_request.may_approve? %>
+          <%= link_to "Decline", users_join_group_decline_path(received_request), class: 'btn btn-outline-danger btn-sm', data: { confirm: "Are you sure, you want to decline?" }, method: :put if received_request.may_decline? %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
